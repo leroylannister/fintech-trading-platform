@@ -1,4 +1,4 @@
-# 📈 Fintech Trading Platform
+ 📈 Fintech Trading Platform
 
 A full-stack simulated trading platform built for learning QA automation and fintech development. This project demonstrates end-to-end testing practices, from API testing to UI automation, performance testing, and CI/CD implementation.
 
@@ -8,7 +8,7 @@ A full-stack simulated trading platform built for learning QA automation and fin
 ![Cypress](https://img.shields.io/badge/cypress-tested-green)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-yellow)
 
-## 🎯 Project Overview
+ 🎯 Project Overview
 
 This MVP trading platform simulates real-world financial trading operations including:
 - User authentication and authorization
@@ -20,44 +20,44 @@ This MVP trading platform simulates real-world financial trading operations incl
 
 Built specifically for QA learning, it includes comprehensive testing at every level.
 
-## 🚀 Quick Start
+ 🚀 Quick Start
 
-### Prerequisites
+ Prerequisites
 - Node.js 18+
 - Docker Desktop
 - Git
 
-### Installation
+ Installation
 
 1. Clone the repository
-```bash
+
 git clone https://github.com/yourusername/fintech-trading-platform.git
 cd fintech-trading-platform
-```
+
 
 2. Start the database
-```bash
+
 docker-compose up -d
-```
+
 
 3. Install and start the backend
-```bash
+
 cd backend
 npm install
 npm run dev
-```
+
 
 4. Start the frontend (new terminal)
-```bash
+
 cd frontend
 npx http-server -p 8080
-```
+
 
 5. Open http://localhost:8080 in your browser
 
-## 🏗️ Architecture
+ 🏗️ Architecture
 
-```
+
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Frontend  │────▶│   Backend   │────▶│  PostgreSQL │
 │  (HTML/JS)  │     │  (Node.js)  │     │  (Database) │
@@ -69,18 +69,18 @@ npx http-server -p 8080
                     │  Test Suites  │
                     │ (Cypress/Jest)│
                     └───────────────┘
-```
 
-## ✨ Features
 
-### Core Trading Features
+ ✨ Features
+
+ Core Trading Features
 - **User Management**: Registration, login, JWT authentication
 - **Market Data**: Real-time simulated price updates
 - **Trading**: Buy/sell orders with instant execution
 - **Portfolio**: Track holdings, P&L, and account balance
 - **History**: Complete audit trail of all transactions
 
-### Testing & QA Features
+ Testing & QA Features
 - **API Testing**: Postman/Newman test collections
 - **UI Testing**: Cypress E2E test suite
 - **Performance Testing**: JMeter load testing scripts
@@ -88,59 +88,59 @@ npx http-server -p 8080
 - **CI/CD**: Automated GitHub Actions pipeline
 - **Security**: Basic compliance and audit logging
 
-## 🧪 Testing
+ 🧪 Testing
 
-### Run API Tests
-```bash
+ Run API Tests
+
 cd tests
 newman run postman/trading-platform-tests.json
-```
 
-### Run UI Tests
-```bash
+
+ Run UI Tests
+
 cd tests
 npm install
-npm run cypress:open  # Interactive
-npm run cypress:run   # Headless
-```
+npm run cypress:open   Interactive
+npm run cypress:run    Headless
 
-### Run Database Tests
-```bash
+
+ Run Database Tests
+
 docker exec -it trading-platform-db psql -U postgres -d trading_platform -f /tests/database/test-queries.sql
-```
 
-### Run All Tests with Docker
-```bash
+
+ Run All Tests with Docker
+
 docker-compose -f docker-compose.test.yml up
-```
 
-## 📁 Project Structure
 
-```
+ 📁 Project Structure
+
+
 fintech-trading-platform/
-├── backend/                 # Node.js Express API
+├── backend/                  Node.js Express API
 │   ├── src/
-│   │   ├── controllers/    # Route handlers
-│   │   ├── db/            # Database connection
-│   │   ├── middleware/    # Auth middleware
-│   │   ├── routes/        # API routes
-│   │   └── services/      # Business logic
+│   │   ├── controllers/     Route handlers
+│   │   ├── db/             Database connection
+│   │   ├── middleware/     Auth middleware
+│   │   ├── routes/         API routes
+│   │   └── services/       Business logic
 │   └── package.json
-├── frontend/               # Web UI
-│   ├── css/               # Styles
-│   ├── js/                # Client-side logic
-│   └── index.html         # Main page
-├── database/              # Database scripts
-│   └── init.sql          # Schema creation
-├── tests/                 # Test suites
-│   ├── cypress/          # UI tests
-│   ├── postman/          # API tests
-│   ├── performance/      # Load tests
-│   └── database/         # DB tests
-└── docker-compose.yml     # Container orchestration
-```
+├── frontend/                Web UI
+│   ├── css/                Styles
+│   ├── js/                 Client-side logic
+│   └── index.html          Main page
+├── database/               Database scripts
+│   └── init.sql           Schema creation
+├── tests/                  Test suites
+│   ├── cypress/           UI tests
+│   ├── postman/           API tests
+│   ├── performance/       Load tests
+│   └── database/          DB tests
+└── docker-compose.yml      Container orchestration
 
-## 🔧 API Endpoints
+
+ 🔧 API Endpoints
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
@@ -151,7 +151,7 @@ fintech-trading-platform/
 | GET | `/api/orders/history` | Get order history | Yes |
 | GET | `/api/portfolio` | Get user portfolio | Yes |
 
-## 🚦 CI/CD Pipeline
+ 🚦 CI/CD Pipeline
 
 The GitHub Actions workflow automatically:
 1. Runs unit and integration tests
@@ -161,7 +161,7 @@ The GitHub Actions workflow automatically:
 5. Executes load tests
 6. Generates test reports
 
-## 🛡️ Security Features
+ 🛡️ Security Features
 
 - Password hashing with bcrypt
 - JWT token authentication
@@ -170,14 +170,14 @@ The GitHub Actions workflow automatically:
 - Basic rate limiting
 - Audit logging
 
-## 📊 Performance
+ 📊 Performance
 
 - Handles 100+ concurrent users
 - Sub-second response times
 - Automatic database connection pooling
 - Optimized queries with indexes
 
-## 🎓 Learning Objectives
+ 🎓 Learning Objectives
 
 This project helps you learn:
 - ✅ Full-stack web development
@@ -189,7 +189,7 @@ This project helps you learn:
 - ✅ Docker containerization
 - ✅ Fintech domain knowledge
 
-## 🔮 Future Enhancements
+ 🔮 Future Enhancements
 
 - [ ] WebSocket support for real-time updates
 - [ ] Advanced order types (limit, stop-loss)
@@ -200,7 +200,7 @@ This project helps you learn:
 - [ ] Mobile app development
 - [ ] GraphQL API
 
-## 🤝 Contributing
+ 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -208,17 +208,17 @@ This project helps you learn:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+ 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+ 🙏 Acknowledgments
 
 - Built as a learning project for QA automation in fintech
 - Inspired by real-world trading platforms
 - Thanks to the open-source community for the amazing tools
 
-## 📞 Support
+ 📞 Support
 
 If you encounter any issues:
 1. Check the [troubleshooting guide](docs/TROUBLESHOOTING.md)
