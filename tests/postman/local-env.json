@@ -1,0 +1,15 @@
+{
+  "name": "Local Development",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "enabled": true
+    },
+    {
+      "key": "testEmail",
+      "value": "test@example.com",
+      "enabled": true
+    }
+  ]
+}

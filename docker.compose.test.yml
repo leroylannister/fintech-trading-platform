@@ -1,0 +1,81 @@
+# docker-compose.test.yml
+version: '3.8'
+
+services:
+  # Test Database
+  test-db:
+    image: postgres:15
+    container_name: trading-platform-test-db
+    environment:
+      POSTGRES_DB: trading_platform_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testpassword
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: trading-platform-backend
+    environment:
+      NODE_ENV: test
+      PORT: 3000
+      DB_HOST: test-db
+      DB_PORT: 5432
+      DB_NAME: trading_platform_test
+      DB_USER: postgres
+      DB_PASSWORD: testpassword
+      JWT_SECRET: test-secret-key
+    ports:
+      - "3000:3000"
+    depends_on:
+      test-db:
+        condition: service_healthy
+    command: npm start
+
+  # Frontend
+  frontend:
+    image: nginx:alpine
+    container_name: trading-platform-frontend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  # Cypress Test Runner
+  cypress:
+    image: cypress/included:12.17.0
+    container_name: cypress-tests
+    environment:
+      CYPRESS_baseUrl: http://frontend
+      CYPRESS_apiUrl: http://backend:3000/api
+    volumes:
+      - ./tests/cypress:/cypress
+      - ./tests/cypress/videos:/cypress/videos
+      - ./tests/cypress/screenshots:/cypress/screenshots
+    depends_on:
+      - frontend
+      - backend
+    command: cypress run
+
+  # Newman API Test Runner
+  newman:
+    image: postman/newman:alpine
+    container_name: newman-tests
+    volumes:
+      - ./tests/postman:/etc/newman
+    depends_on:
+      - backend
+    command: run /etc/newman/trading-platform-tests.json --env-var baseUrl=http://backend:3000/api
