@@ -1,12 +1,12 @@
 # backend/Dockerfile
-FROM node:18-alpine
+FROM node:20-alpine3.19
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy app source
 COPY . .
