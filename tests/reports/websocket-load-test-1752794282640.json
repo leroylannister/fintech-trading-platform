@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "protocol": "socketio",
+    "duration": "39.06 seconds",
+    "totalClients": 10,
+    "successfulConnections": 10,
+    "disconnections": 10,
+    "totalMessages": 0,
+    "messagesPerSecond": "0.00",
+    "errors": 0,
+    "connectionSuccessRate": "100.00%"
+  },
+  "latency": {
+    "average": "0.00 ms",
+    "p95": "0.00 ms",
+    "p99": "0.00 ms",
+    "samples": 0
+  },
+  "clientMetrics": {
+    "totalMessagesPerClient": {
+      "0-9": 10
+    },
+    "connectionStatus": {
+      "connected": 0,
+      "disconnected": 10
+    },
+    "errorStats": {
+      "clientsWithErrors": 0,
+      "totalErrors": 0
+    }
+  }
+}

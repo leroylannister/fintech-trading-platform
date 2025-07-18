@@ -1,0 +1,72 @@
+{
+  "name": "fintech-trading-platform-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive test suite for fintech trading platform including API, UI, performance, and data-driven tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:all",
+    "test:all": "npm run test:api && npm run test:cypress && npm run test:csv",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:headed": "cypress run --headed",
+    "test:cypress": "cypress run",
+    "test:api": "newman run postman/trading-platform-tests.json -e postman/local-env.json",
+    "test:api:report": "newman run postman/trading-platform-tests.json -e postman/local-env.json -r htmlextra --reporter-htmlextra-export reports/api-test-report.html",
+    "test:csv": "jest --config=jest.config.csv.js",
+    "test:csv:watch": "jest --config=jest.config.csv.js --watch",
+    "test:postman:csv": "node postman/run-csv-tests.js",
+    "test:data-driven": "npm run test:csv && npm run test:postman:csv",
+    "test:generate-data": "node data-driven/generate-test-data.js",
+    "test:load": "node performance/run-load-tests.js",
+    "test:stress": "node performance/run-stress-tests.js",
+    "test:security": "node security/run-security-scan.js",
+    "test:report": "open reports/test-report.html",
+    "test:analyze": "node data-driven/analyze-results.js",
+    "clean": "rm -rf reports/* cypress/videos/* cypress/screenshots/*",
+    "test:ws": "npm run test:ws:unit && npm run test:ws:integration && npm run test:ws:e2e",
+    "test:ws:unit": "jest websocketService.test.js",
+    "test:ws:integration": "jest websocket-integration.test.js",
+    "test:ws:e2e": "cypress run --spec 'cypress/e2e/websocket.cy.js'",
+    "test:ws:load": "node performance/websocket-load-test.js",
+    "test:ws:load:smoke": "node performance/websocket-load-test.js smoke",
+    "test:ws:load:stress": "node performance/websocket-load-test.js stress",
+    "test:ws:monitor": "open monitoring/websocket-dashboard.html",
+    "test:ws:all": "sh run-websocket-tests.sh",
+    "setup": "mkdir -p cypress/e2e postman data data-driven performance security reports unit integration setup"
+  },
+  "keywords": [
+    "testing",
+    "cypress",
+    "postman",
+    "newman",
+    "jest",
+    "data-driven-testing",
+    "performance-testing",
+    "fintech"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.5.1",
+    "jest": "^29.5.0",
+    "newman": "^6.1.0",
+    "newman-reporter-htmlextra": "^1.22.11",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "supertest": "^6.3.3",
+    "@types/jest": "^29.5.0",
+    "jest-html-reporters": "^3.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "./reports/coverage",
+    "collectCoverageFrom": [
+      "**/*.test.js"
+    ],
+    "testTimeout": 30000
+  }
+}

@@ -150,12 +150,21 @@ const placeOrder = async (req, res) => {
     // Commit transaction
     await client.query('COMMIT');
     
+    // Enhanced response format combining your existing logic with the simple format
     res.json({
+      success: true,
       message: 'Order executed successfully',
       order: {
-        ...order,
+        id: order.id,
+        symbol: order.symbol,
+        orderType: order.order_type,
+        quantity: parseInt(order.quantity),
+        originalPrice: parseFloat(order.price),
+        executionPrice: executionPrice,
         status: 'FILLED',
-        executionPrice
+        timestamp: new Date().toISOString(),
+        userId: order.user_id,
+        totalCost: orderType === 'BUY' ? quantity * executionPrice : -(quantity * executionPrice)
       }
     });
     
@@ -163,7 +172,9 @@ const placeOrder = async (req, res) => {
     await client.query('ROLLBACK');
     console.error('Order placement error:', error);
     res.status(500).json({ 
-      error: 'Failed to place order' 
+      success: false,
+      error: 'Failed to place order',
+      message: error.message 
     });
   } finally {
     client.release();

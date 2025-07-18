@@ -1,0 +1,21 @@
+description,userId,symbol,orderType,quantity,price,expectedResult,expectedError
+Valid market buy order,1,AAPL,BUY,10,150,success,
+Valid market sell order,1,AAPL,SELL,5,150,success,
+Valid limit buy order,1,GOOGL,BUY,2,2500,success,
+Insufficient balance,1,AAPL,BUY,1000,150,error,Insufficient balance
+Insufficient shares to sell,1,TSLA,SELL,100,800,error,Insufficient shares to sell
+Invalid symbol,1,INVALID,BUY,10,150,error,Invalid symbol
+Negative quantity,1,AAPL,BUY,-10,150,error,Invalid quantity
+Zero quantity,1,AAPL,BUY,0,150,error,Invalid quantity
+Negative price,1,AAPL,BUY,10,-150,error,Invalid price
+Zero price,1,AAPL,BUY,10,0,error,Invalid price
+Null symbol,1,,BUY,10,150,error,Symbol is required
+Empty order type,1,AAPL,,10,150,error,Order type is required
+Invalid order type,1,AAPL,INVALID,10,150,error,Invalid order type
+Very large quantity,1,AAPL,BUY,999999,150,error,Quantity exceeds maximum
+Very small price,1,AAPL,BUY,10,0.001,error,Price below minimum
+Very large price,1,AAPL,BUY,10,999999,error,Price exceeds maximum
+Fractional quantity,1,AAPL,BUY,10.5,150,error,Quantity must be whole number
+Valid high-value order,2,AAPL,BUY,50,150,success,
+Edge case exact balance,1,MSFT,BUY,33,300,success,
+Edge case one cent over balance,1,MSFT,BUY,34,300,error,Insufficient balance

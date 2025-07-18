@@ -2,8 +2,10 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const http = require('http');
 const MarketSimulator = require('./services/marketSimulator');
 const { ComplianceService } = require('./services/complianceService');
+const webSocketService = require('./services/websocketService');
 
 // Load environment variables
 dotenv.config();
@@ -42,8 +44,21 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize WebSocket
+webSocketService.initialize(server);
+
+// Update market simulator to broadcast updates
+if (marketSimulator) {
+  marketSimulator.onPriceUpdate = (symbol, price) => {
+    webSocketService.broadcastMarketUpdate(symbol, { price });
+  };
+}
+
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   
   // Start market simulator
@@ -56,7 +71,7 @@ app.listen(PORT, () => {
 process.on('SIGTERM', () => {
   console.log('SIGTERM signal received: closing HTTP server');
   marketSimulator.stop();
-  app.close(() => {
+  server.close(() => {
     console.log('HTTP server closed');
   });
 });

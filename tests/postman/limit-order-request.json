@@ -1,0 +1,124 @@
+{
+  "info": {
+    "name": "Limit Order Request",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Place Limit Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Order was created with LIMIT type', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.order).to.have.property('orderSubtype', 'LIMIT');",
+              "});",
+              "",
+              "pm.test('Limit price is set correctly', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(parseFloat(jsonData.order.limitPrice)).to.equal(145.50);",
+              "});",
+              "",
+              "pm.test('Order status is appropriate', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(['OPEN', 'FILLED']).to.include(jsonData.order.status);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Set dynamic values if needed",
+              "pm.variables.set('testSymbol', pm.variables.replaceIn('{{$randomItem[AAPL,GOOGL,MSFT,AMZN,TSLA]}}'));",
+              "pm.variables.set('testQuantity', _.random(1, 20));",
+              "pm.variables.set('testLimitPrice', _.random(140, 160, true).toFixed(2));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"symbol\": \"AAPL\",\n    \"orderType\": \"BUY\",\n    \"orderSubtype\": \"LIMIT\",\n    \"quantity\": 10,\n    \"limitPrice\": 145.50,\n    \"timeInForce\": \"DAY\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/orders/place",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "orders",
+            "place"
+          ]
+        },
+        "description": "Places a limit order that will only execute at the specified price or better"
+      },
+      "response": [
+        {
+          "name": "Successful Limit Order",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"symbol\": \"AAPL\",\n    \"orderType\": \"BUY\",\n    \"orderSubtype\": \"LIMIT\",\n    \"quantity\": 10,\n    \"limitPrice\": 145.50,\n    \"timeInForce\": \"DAY\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/place",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "place"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"message\": \"Order placed successfully\",\n    \"order\": {\n        \"id\": 12345,\n        \"userId\": 1,\n        \"symbol\": \"AAPL\",\n        \"orderType\": \"BUY\",\n        \"orderSubtype\": \"LIMIT\",\n        \"quantity\": 10,\n        \"limitPrice\": 145.50,\n        \"status\": \"OPEN\",\n        \"timeInForce\": \"DAY\",\n        \"createdAt\": \"2024-01-15T10:30:00Z\"\n    }\n}"
+        }
+      ]
+    }
+  ]
+}
